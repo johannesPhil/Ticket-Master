@@ -1,72 +1,76 @@
 <template>
   <div class="container">
-    <div>
-      <logo />
+    <section>
       <h1 class="title">
-        TicketMaster
+        The best events happening now
       </h1>
-      <h2 class="subtitle">
-        Flutterwave coding test
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+      <div class="eventlist">
+        <div class="eventcard">
+        <div class="eventcard__image">
+            <img src="~/assets/pic.jpg" alt="">
+        </div>
+        <div class="eventcard__desc">
+            <p class="eventcard__date">
+
+            </p>
+            <p class="eventcard__title">
+
+            </p>
+            <p class="eventcard__fee">
+
+            </p>
+        </div>
     </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
+import axios from '@nuxtjs/axios';
 export default {
   components: {
-    Logo
+  },
+  data() {
+    return {
+      events: [],
+      date: '',
+      title : '',
+      fee : ''
+    }
+  },
+  created() {
+        const response = await axios.get('https://eventsflw.herokuapp.com/v1/events')
+        .then(response =>{
+          this.events = response.data;
+          console.log(events);
+        })
+        .catch (e => {
+        this.errors.push(e);
+        console.log(errors);
+      })
+    },
   }
-}
 </script>
 
 <style>
 .container {
+  max-width: 1440px;
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  background-color: #F2F2F2;
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.eventcard{
+    width: 30%;
+    height:400px;
 }
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+.eventcard__image{
+    width: 100%;
+    height: 300px;
 }
 </style>
